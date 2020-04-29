@@ -11,11 +11,11 @@ class Category(models.Model):
         ('False', 'Hayır'),
     )
     title = models.CharField(max_length=100)
-    keywords = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    keywords = models.CharField(blank=True, max_length=255)
+    description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField()
+    slug = models.SlugField(blank=True, max_length=150)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -30,16 +30,17 @@ class Category(models.Model):
 
 
 class Content(models.Model):
-    STATUS =(
+    STATUS = (
         ('True', 'Evet'),
         ('False', 'Hayır'),
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
-    keywords = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    keywords = models.CharField(blank=True, max_length=255)
+    description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
     detail = RichTextUploadingField()
+    slug = models.SlugField(blank=True, max_length=150)
     status = models.CharField(max_length=10, choices=STATUS)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)

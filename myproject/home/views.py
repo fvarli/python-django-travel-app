@@ -2,19 +2,24 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu
+from content.models import Content
 
 # Create your views here.
+
+
 def index(request):
 
     settings = Settings.objects.get(pk=1)
-    context = {'settings': settings, 'page':'home'}
+    slider_data = Content.objects.all()[:4]
+    context = {'settings': settings, 'page': 'home',
+               'slider_data': slider_data}
     return render(request, 'index.html', context)
 
 
 def hakkimizda(request):
 
     settings = Settings.objects.get(pk=1)
-    context = {'settings': settings, 'page':'hakkimizda'}
+    context = {'settings': settings, 'page': 'hakkimizda'}
     return render(request, 'hakkimizda.html', context)
 
 
