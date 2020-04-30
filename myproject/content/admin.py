@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from content.models import Category, Content, Images
+from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 
 
 class ContentImageInline(admin.TabularInline):
@@ -27,6 +28,40 @@ class ImagesAdmin(admin.ModelAdmin):
     readonly_fields = ('get_image_tag',)
 
 
-admin.site.register(Category, CategoryAdmin)
+class CategoryAdmin2(DraggableMPTTAdmin):
+    mptt_indent_field = "title"
+    list_display = ('tree_actions', 'indented_title',
+                    'related_contents_count', 'related_contents_cumulative_count')
+    list_display_links = ('indented_title',)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        # Add cumulative product count
+        qs = Category.objects.add_related_count(
+                qs,
+                Content,
+                'category',
+                'contents_cumulative_count',
+                cumulative=True)
+
+        # Add non cumulative product count
+        qs = Category.objects.add_related_count(qs,
+                 Content,
+                 'category',
+                 'contents_count',
+                 cumulative=False)
+        return qs
+
+    def related_contents_count(self, instance):
+        return instance.contents_count
+    related_contents_count.short_description = 'Related contents (for this specific category)'
+
+    def related_contents_cumulative_count(self, instance):
+        return instance.contents_cumulative_count
+    related_contents_cumulative_count.short_description = 'Related contents (in tree)'
+
+
+admin.site.register(Category, CategoryAdmin2)
 admin.site.register(Content, ContentAdmin)
 admin.site.register(Images, ImagesAdmin)

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu
-from content.models import Content
+from content.models import Content, Category
 
 # Create your views here.
 
@@ -11,7 +11,11 @@ def index(request):
 
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
-    context = {'settings': settings, 'page': 'home',
+    category = Category.objects.all()
+
+    context = {'settings': settings,
+               'category': category,
+               'page': 'home',
                'slider_data': slider_data}
     return render(request, 'index.html', context)
 

@@ -1,5 +1,21 @@
 {% load static %}
-<div id="fh5co-course-categories">
+{% load mptt_tags %}
+&emsp;
+    <ul>
+        {% recursetree category %}
+            <li>
+                {{ node.title }}
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+
+
+    <div id="fh5co-course-categories">
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
