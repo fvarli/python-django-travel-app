@@ -1,18 +1,26 @@
 {% load static %}
 {% load mptt_tags %}
 &emsp;
-    <ul>
-        {% recursetree category %}
-            <li>
-                {{ node.title }}
-                {% if not node.is_leaf_node %}
-                    <ul class="children">
-                        {{ children }}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endrecursetree %}
-    </ul>
+<style>
+     .i-am-centered { margin: auto; max-width: 200px;}
+</style>
+    <div class="i-am-centered">
+        <div class="row">
+            <ul>
+                {% recursetree category %}
+                    <li>
+                    <!-- TODO check id url video: https://www.youtube.com/watch?v=HAD0jblf3cI&list=PLIUezwWmVtFUq0RcsaBn8LR_o9R5psLPh&index=16-->
+                        <a href="/category/{{ node.slug }}">{{ node.title }}</a>
+                        {% if not node.is_leaf_node %}
+                            <ul class="children">
+                                <li><a href="/category/{{ node.slug }}">{{ children }}</a></li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
 
 
     <div id="fh5co-course-categories">

@@ -12,7 +12,6 @@ def index(request):
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
     category = Category.objects.all()
-
     context = {'settings': settings,
                'category': category,
                'page': 'home',
@@ -49,8 +48,18 @@ def iletisim(request):
             return HttpResponseRedirect('/iletisim')
 
 
-
     settings = Settings.objects.get(pk=1)
     form = ContactFormu()
-    context = {'settings': settings, 'form':form}
+    context = {'settings': settings,
+               'form': form}
     return render(request, 'iletisim.html', context)
+
+
+def category_contents(request, id, slug):
+    category = Category.objects.all()
+    category_data = Category.objects.get(pk=id)
+    contents = Content.objects.filter(category_id=id)
+    context = {'contents': contents,
+               'category': category,
+               'category_data': category_data}
+    return render(request, 'geziler.html', context)

@@ -1,0 +1,54 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ category_data.title }} {% endblock %}
+{% block keywords %} {{ settings.keywords }}  {% endblock %}
+{% block description %} {{ settings.description }}  {% endblock %}
+
+    {% block head %}
+
+<link rel='shortcut icon' type='image/x-icon' href='{{settings.icon.url}}' />
+
+    {% endblock %}
+
+
+{% block content %}
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">{{ category_data.title }}</li>
+            </ul>
+        </div>
+    </div>&emsp;
+
+
+    <div id="fh5co-course">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-6 col-md-offset-3 text-center fh5co-heading">
+					<h2>Gezilerimiz</h2>
+					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+				</div>
+			</div>
+			<div class="row">
+                {% for rs in contents %}
+				    <div class="col-md-6 animate-box">
+					<div class="course">
+						<a href="#" class="course-img" style="background-image: url({{rs.image.url}});">
+						</a>
+						<div class="desc">
+							<h3><a href="#">{{ rs.title }}</a></h3>
+							<p> {{ rs.description }}</p>
+							<span><a href="/content/{{ rs.id }}/{{ rs.slug }}" class="btn btn-primary btn-sm btn-course">Gezi Detayına Git</a></span>
+						</div>
+					</div>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
