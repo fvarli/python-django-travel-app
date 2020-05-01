@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from content.models import Category, Content, Images
+from content.models import Category, Content, Images, Comment
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 
 
@@ -62,6 +62,12 @@ class CategoryAdmin2(DraggableMPTTAdmin):
     related_contents_cumulative_count.short_description = 'Related contents (in tree)'
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['subject', 'comment', 'content', 'user', 'email', 'rate', 'status']
+    list_filter = ['status']
+
+
 admin.site.register(Category, CategoryAdmin2)
 admin.site.register(Content, ContentAdmin)
 admin.site.register(Images, ImagesAdmin)
+admin.site.register(Comment, CommentAdmin)

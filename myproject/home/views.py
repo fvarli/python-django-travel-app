@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu
-from content.models import Content, Category
+from content.models import Content, Category, Images, Comment
 
 # Create your views here.
 
@@ -11,11 +11,15 @@ def index(request):
 
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
+    random_contents = Content.objects.all().order_by('?')[:4]
+    random_category = Category.objects.all().order_by('?')[:8]
     category = Category.objects.all()
     context = {'settings': settings,
                'category': category,
+               'random_category': random_category,
                'page': 'home',
-               'slider_data': slider_data}
+               'slider_data': slider_data,
+               'random_contents': random_contents}
     return render(request, 'index.html', context)
 
 
@@ -31,6 +35,7 @@ def referanslar(request):
     settings = Settings.objects.get(pk=1)
     context = {'settings': settings, 'page':'referanslar'}
     return render(request, 'referanslar.html', context)
+
 
 def iletisim(request):
 
@@ -63,3 +68,15 @@ def category_contents(request, id, slug):
                'category': category,
                'category_data': category_data}
     return render(request, 'geziler.html', context)
+
+
+def content_detail(request, id, slug):
+    category = Category.objects.all()
+    content = Content.objects.get(pk=id)
+    images = Images.objects.filter(content_id=id)
+    comments = Comment.objects.filter(content_id=id, status='True')
+    context = {'category': category,
+               'images': images,
+               'comments': comments,
+               'content': content}
+    return render(request, 'content_detail.html', context)
