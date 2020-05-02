@@ -1,13 +1,15 @@
+from django.contrib.auth.models import User
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 from django.forms import ModelForm, TextInput, Textarea
+from django.utils.safestring import mark_safe
 
 
 class Settings(models.Model):
 
-    STATUS =(
+    STATUS = (
         ('True', 'Evet'),
         ('False', 'Hayır'),
     )
@@ -41,7 +43,7 @@ class Settings(models.Model):
 
 class ContactFormMessage(models.Model):
 
-    STATUS =(
+    STATUS = (
         ('New', 'New'),
         ('Read', 'Read'),
         ('Closed', 'Closed'),
@@ -66,8 +68,37 @@ class ContactFormu(ModelForm):
         model = ContactFormMessage
         fields = ['name', 'email', 'subject', 'message']
         widgets = {
-            'name'  : TextInput(attrs={'class': 'input', 'placeholder': 'Name & Surname'}),
-            'subject'  : TextInput(attrs={'class': 'input', 'placeholder': 'Subject'}),
-            'email'  : TextInput(attrs={'class': 'input', 'placeholder': 'Email Address'}),
-            'message'  : Textarea(attrs={'class': 'input', 'placeholder': 'Your Message', 'rows': '5'}),
+            'name': TextInput(attrs={'class': 'input', 'placeholder': 'Name & Surname'}),
+            'subject': TextInput(attrs={'class': 'input', 'placeholder': 'Subject'}),
+            'email': TextInput(attrs={'class': 'input', 'placeholder': 'Email Address'}),
+            'message': Textarea(attrs={'class': 'input', 'placeholder': 'Your Message', 'rows': '5'}),
         }
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(blank=True, max_length=20)
+    phone = models.CharField(blank=True, max_length=20)
+    address = models.CharField(blank=True, max_length=150)
+    city = models.CharField(blank=True, max_length=20)
+    country = models.CharField(blank=True, max_length=20)
+    image = models.ImageField(blank=True, upload_to='images/users/')
+
+    def __str__(self):
+        return self.user.username
+
+    def user_name(self):
+        return self.user.username
+
+    def full_name(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
+    def get_image_tag(self):
+        return mark_safe('<img src="{}" height = 50/>'.format(self.image.url))
+    get_image_tag.description='Image'
+
+
+class UserProfileFormu(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['phone', 'address', 'city', 'country', 'image']

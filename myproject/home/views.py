@@ -6,10 +6,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu
 from content.models import Content, Category, Images, Comment
+from home.forms import SearchForm, SignUpForm
 
 
 # Create your views here.
-from home.forms import SearchForm
 
 
 def index(request):
@@ -149,4 +149,23 @@ def login_view(request):
     category = Category.objects.all()
     context = {'category': category}
     return render(request, 'login.html', context)
+
+
+def sign_up_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+
+    form = SignUpForm()
+
+    category = Category.objects.all()
+    context = {'category': category,
+               'form': form}
+    return render(request, 'sign_up.html', context)
 

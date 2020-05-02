@@ -34,7 +34,8 @@ urlpatterns = [
     path('search/', views.content_search, name='content_search'),
     path('search_auto/', views.content_search_auto, name='content_search_auto'),
     path('logout/', views.logout_view, name='logout_view'),
-    path('login/', views.login_view, name='login_view')
+    path('login/', views.login_view, name='login_view'),
+    path('sign_up/', views.sign_up_view, name='sign_up_view')
 ]
 
 
