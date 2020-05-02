@@ -38,13 +38,11 @@
 		<div class="top-menu">
 			<div class="container">
 				<div class="row">
-					<div class="col-xs-1">
+					<div class="col-xs-2">
 						<div id="fh5co-logo"><a href="/">Engineer</a></div>
 					</div>
-                    <div class="col-xs-1">
 
-                    </div>
-                    <div class="header-search col-xs-4">
+                    <div class="header-search col-xs-2">
                         <form action="/search/" method="post">
                             {% csrf_token %}
                             <input type="text" name="query" id="query" class="input search-input" placeholder="Enter your keyword">
@@ -53,22 +51,22 @@
                             <!-- TODO search and category relations and fix the issue https://www.youtube.com/watch?v=vuqutQ3gU0M&list=PLIUezwWmVtFUq0RcsaBn8LR_o9R5psLPh&index=21
                             <select name="catid" class="input search-categories">
                                 <option value="0">All Categories</option>
-                                {% recursetree category %}
-                                    {% if node.is_leaf_node %}
+                                {''' % recursetree category %}
+                                    {''' % if node.is_leaf_node %}
                                         <option value="{{ node.id }}">{{ node.title }}</option>
-                                    {% endif %}
-                                    {% if not node.is_leaf_node %}
+                                    {''' % endif %}
+                                    {''' % if not node.is_leaf_node %}
                                         <optgroup label="{{ node.title }}">
                                             {{ children }}
                                         </optgroup>
-                                    {% endif %}
-                                {% endrecursetree %}
+                                    {''' % endif %}
+                                {''' % endrecursetree %}
                             </select>
                             -->
                             <button class="icon-search4"></button>
                         </form>
                     </div>
-					<div class="col-xs-10 text-right menu-1">
+					<div class="col-xs-8 text-right menu-1">
 						<ul>
 							<li class="active"><a href="index.html">Home</a></li>
 							<li class="has-dropdown">
@@ -83,9 +81,25 @@
             				<li><a href="/referanslar">Referanslar</a></li>
             				<li><a href="/hakkimizda">Hakkımızda</a></li>
             				<li><a href="/iletisim">İletişim</a></li>
-							<li class="btn-cta"><a href="#"><span>Login</span></a></li>
-							<li class="btn-cta"><a href="#"><span>Create a Course</span></a></li>
-						</ul>
+
+                            {% if user.id is not None %}
+
+                                <li class="btn-primary has-dropdown">
+								<a href="#"><span>My Account {{ user.first_name }} {{ user.last_name }}</span></a>
+								<ul class="dropdown">
+									<li><a href="#">My Comments</a></li>
+									<li><a href="/logout/">Logout</a></li>
+								</ul>
+							</li>
+
+                            {% else %}
+
+							<li class="btn-cta"><a href="/login/"><span>Login</span></a></li>
+							<li class="btn-cta"><a href="/create_account/"><span>Create an Account</span></a></li>
+
+                            {% endif %}
+
+                        </ul>
 					</div>
 				</div>
 

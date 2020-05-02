@@ -1,6 +1,6 @@
 {% extends "homebase.html" %}
 
-{% block title %} İletişim | {{ settings.company }} {% endblock %}
+{% block title %} Login | {{ settings.company }} {% endblock %}
 {% block keywords %} {{ settings.keywords }}  {% endblock %}
 {% block description %} {{ settings.description }}  {% endblock %}
 
@@ -19,7 +19,7 @@
         <div class="container">
             <ul class="breadcrumb">
                 <li><a href="/">Home</a></li>
-                <li class="active">İletişim</li>
+                <li class="active">Giriş</li>
             </ul>
         </div>
     </div>&emsp;
@@ -29,10 +29,10 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="contact-details">
                         <div class="section-details">
-                            <h3 class="title">İletişim Formu</h3>
+                            <h3 class="title">Giriş Yapın</h3>
                         </div>
 
                         {% if messages %}
@@ -44,22 +44,21 @@
                         {% endif %}
 
                         <form action="" method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <input type="submit" value="SEND FORM">
-                        </form>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="input" type="text" name="username" id="username" placeholder="Username" />
+                        </div>
 
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <input class="input" type="password" name="password" id="password" placeholder="Password" />
+                        </div>
 
-                <div class="col-md-8">
-                    <div class="section-title">
-                        <h3 class="title">İletişim Bilgilerimiz</h3>
+                            <input type="submit" value="Login">
+                    </form>
+<br>
                     </div>
-                        {{ settings.contact|safe }}
                 </div>
             </div>
         </div>
     </div>
-    <br>
 {% endblock %}
