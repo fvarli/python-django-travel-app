@@ -1,0 +1,50 @@
+{% extends "homebase.html" %}
+
+{% block title %} | {{ settings.company }} {% endblock %}
+{% block keywords %} {{ settings.keywords }}  {% endblock %}
+{% block description %} {{ settings.description }}  {% endblock %}
+
+    {% block head %}
+
+<link rel='shortcut icon' type='image/x-icon' href='{{settings.icon.url}}' />
+
+    {% endblock %}
+
+
+{% block content %}
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Content Search Results</li>
+            </ul>
+        </div>
+    </div>&emsp;
+
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <table cellpadding="3" width="1200">
+                    <tr>
+                        <th>Image</th>
+                        <th>Content Name</th>
+                        <th>Category</th>
+                    </tr>
+
+                    {% for rs in contents %}
+                        <tr>
+                            <td><a href="/content/{{ rs.id }}/{{ rs.slug }}"><img src="{{ rs.image.url }}"></a></td>
+                            <td><h4 class="content-name"><a href="/content/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4></td>
+                            <td><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}"> {{ rs.category }}</a></td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

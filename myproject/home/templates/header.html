@@ -1,4 +1,21 @@
 {% load static %}
+
+<script>
+    $(function () {
+        $("#query").autocomplete({
+            source: "search_auto/",
+            select: function (event, ui) {
+                AutoCompleteSelectHandler(event,ui)
+            },
+            minLength: 2,
+        });
+    });
+    
+    function AutoCompleteSelectHandler(event, ui) {
+        var selectedObj = ui.item;
+    }
+</script>
+
 <header>
 		<nav class="fh5co-nav" role="navigation">
 		<div class="top">
@@ -21,9 +38,36 @@
 		<div class="top-menu">
 			<div class="container">
 				<div class="row">
-					<div class="col-xs-2">
+					<div class="col-xs-1">
 						<div id="fh5co-logo"><a href="/">Engineer</a></div>
 					</div>
+                    <div class="col-xs-1">
+
+                    </div>
+                    <div class="header-search col-xs-4">
+                        <form action="/search/" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="query" id="query" class="input search-input" placeholder="Enter your keyword">
+
+                            {% load mptt_tags %}
+                            <!-- TODO search and category relations and fix the issue
+                            <select name="catid" class="input search-categories">
+                                <option value="0">All Categories</option>
+                                {% recursetree category %}
+                                    {% if node.is_leaf_node %}
+                                        <option value="{{ node.id }}">{{ node.title }}</option>
+                                    {% endif %}
+                                    {% if not node.is_leaf_node %}
+                                        <optgroup label="{{ node.title }}">
+                                            {{ children }}
+                                        </optgroup>
+                                    {% endif %}
+                                {% endrecursetree %}
+                            </select>
+                            -->
+                            <button class="icon-search4"></button>
+                        </form>
+                    </div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
 							<li class="active"><a href="index.html">Home</a></li>
