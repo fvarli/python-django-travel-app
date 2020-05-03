@@ -9,7 +9,7 @@
             <ul>
                 {% recursetree category %}
                     <li>
-                    <!-- TODO check id url video: https://www.youtube.com/watch?v=HAD0jblf3cI&list=PLIUezwWmVtFUq0RcsaBn8LR_o9R5psLPh&index=16-->
+                    <!-- TODO video 16 - check id url video: https://www.youtube.com/watch?v=HAD0jblf3cI&list=PLIUezwWmVtFUq0RcsaBn8LR_o9R5psLPh&index=16-->
                         <a href="/category/{{ node.slug }}">{{ node.title }}</a>
                         {% if not node.is_leaf_node %}
                             <ul class="children">
