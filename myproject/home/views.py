@@ -17,7 +17,7 @@ def index(request):
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
     random_contents = Content.objects.all().order_by('?')[:4]
-    random_category = Category.objects.all().order_by('?')[:8]
+    random_category = Category.objects.all().order_by('?')[:10]
     category = Category.objects.all()
     context = {'settings': settings,
                'category': category,
@@ -31,14 +31,14 @@ def index(request):
 def hakkimizda(request):
 
     settings = Settings.objects.get(pk=1)
-    context = {'settings': settings, 'page': 'hakkimizda'}
+    context = {'settings': settings}
     return render(request, 'hakkimizda.html', context)
 
 
 def referanslar(request):
 
     settings = Settings.objects.get(pk=1)
-    context = {'settings': settings, 'page':'referanslar'}
+    context = {'settings': settings}
     return render(request, 'referanslar.html', context)
 
 

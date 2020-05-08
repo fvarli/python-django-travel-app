@@ -53,11 +53,11 @@
                                 <option value="0">All Categories</option>
                                 {''' % recursetree category %}
                                     {''' % if node.is_leaf_node %}
-                                        <option value="{{ node.id }}">{{ node.title }}</option>
+                                        <option value="{''{ node.id }}">{'''{ node.title }}</option>
                                     {''' % endif %}
                                     {''' % if not node.is_leaf_node %}
-                                        <optgroup label="{{ node.title }}">
-                                            {{ children }}
+                                        <optgroup label="{'''{ node.title }}">
+                                            {'''{ children }}
                                         </optgroup>
                                     {''' % endif %}
                                 {''' % endrecursetree %}
@@ -82,9 +82,22 @@
                                 </li>
                             {'''% endrecursetree %}
                             -->
-            				<li><a href="/referanslar">Referanslar</a></li>
-            				<li><a href="/hakkimizda">Hakkımızda</a></li>
-            				<li><a href="/iletisim">İletişim</a></li>
+
+                            {% load mptt_tags %}
+
+                            {% recursetree category %}
+                                 <li class="has-dropdown">
+                                    <a href="/category/{{ node.id }}/{{ node.slug }}" {% if not node.is_leaf_node %} data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true" {% endif %}>{{ node.title }}</a>
+                                    {% if not node.is_leaf_node %}
+                                        <ul class="dropdown">
+                                            <li><a href="/category/{{ node.slug }}">{{ children }}</a></li>
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                           {% endrecursetree %}
+                            <li><a href="/referanslar">Referanslar</a></li>
+                            <li><a href="/hakkimizda">Hakkımızda</a></li>
+                            <li><a href="/iletisim">İletişim</a></li>
 
                             {% if user.id is not None %}
 
