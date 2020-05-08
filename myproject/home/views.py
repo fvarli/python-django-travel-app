@@ -7,6 +7,7 @@ from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu
 from content.models import Content, Category, Images, Comment
 from home.forms import SearchForm, SignUpForm
+from django.views import View
 
 
 # Create your views here.
@@ -16,8 +17,8 @@ def index(request):
 
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
-    random_contents = Content.objects.all().order_by('?')[:4]
-    random_category = Category.objects.all().order_by('?')[:10]
+    random_contents = Content.objects.order_by('?')[:6]
+    random_category = Category.objects.order_by('?')[:10]
     category = Category.objects.all()
     context = {'settings': settings,
                'category': category,
@@ -28,17 +29,19 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-def hakkimizda(request):
-
-    settings = Settings.objects.get(pk=1)
-    context = {'settings': settings}
-    return render(request, 'hakkimizda.html', context)
+class Hakkimizda(View):
+    def get(self, request):
+        settings = Settings.objects.get(pk=1)
+        category = Category.objects.all()
+        context = {'settings': settings, 'category': category}
+        return render(request, 'hakkimizda.html', context)
 
 
 def referanslar(request):
 
     settings = Settings.objects.get(pk=1)
-    context = {'settings': settings}
+    category = Category.objects.all()
+    context = {'settings': settings, 'category': category}
     return render(request, 'referanslar.html', context)
 
 
