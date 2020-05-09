@@ -1,4 +1,13 @@
 {% extends "homebase.html" %}
+	    {% load static %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<style>
+.mySlides {display:none;}
+</style>
+
+
+
 
 {% block title %} {{ content.title }} {% endblock %}
 {% block keywords %} {{ settings.keywords }}  {% endblock %}
@@ -13,8 +22,7 @@
 
 {% block content %}
 
-&emsp;&emsp;&emsp;
-&emsp;&emsp;&emsp;
+
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
@@ -26,23 +34,36 @@
         </div>
     </div>
 
-&emsp;&emsp;&emsp;
-        <div id="fh5co-course">
+
+    <div id="fh5co-about">
+        <div class="container">
+            <div class="col-md-6 animate-box">
+                <h2>{{ content.title }}</h2>
+                <p>{{ content.detail | safe }}</p>
+
+            </div>
+            <div class="col-md-6">
+                <img class="img-responsive" src="{{ content.image.url }}" alt="Free HTML5 Bootstrap Template">
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <!-- <div class="col-md-6 animate-box"></div> -->
+            <div class="col-md-3 text-center">
+                 {% for rs in images %}
+                    <img class="mySlides" src="{{ rs.image.url }}" style="width:300px; height:300px">
+                 {% endfor %}
+                <br>
+                 <button style="width:40px; height:40px;" class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                 <button style="width:40px; height:40px;" class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+        </div>
+
+	</div>
+
+    <div id="fh5co-course">
 		<div class="container">
-
 			<div class="row">
-                {% for rs in images %}
-				    <div class="col-md-6 animate-box">
-	    				<div class="course">
-    						<a href="#" class="course-img" style="background-image: url({{rs.image.url}});"></a>
-						    <div class="desc">
-                                <h3><a href="#">{{ content.title }}</a></h3>
-                                <p> {{ content.description | safe }} </p>
-		    				</div>
-					    </div>
-			    	</div>
-                {% endfor %}
-
                 {% for rs in comments %}
                     <div class="col-md-6 animate-box">
 	    				<div class="course">
@@ -59,7 +80,6 @@
 			    	</div>
                 {% endfor %}
 			</div>
-
             <div>
                 <div class="col-md-6 animate-box">
                 <h4 class="text-uppercase">Write Your Review</h4>
@@ -109,4 +129,24 @@
             </div>
 		</div>
 	</div>
+
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+          showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+          var i;
+          var x = document.getElementsByClassName("mySlides");
+          if (n > x.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          x[slideIndex-1].style.display = "block";
+        }
+    </script>
 {% endblock %}

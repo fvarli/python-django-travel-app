@@ -68,10 +68,10 @@ class ContactFormu(ModelForm):
         model = ContactFormMessage
         fields = ['name', 'email', 'subject', 'message']
         widgets = {
-            'name': TextInput(attrs={'class': 'input', 'placeholder': 'Name & Surname'}),
-            'subject': TextInput(attrs={'class': 'input', 'placeholder': 'Subject'}),
-            'email': TextInput(attrs={'class': 'input', 'placeholder': 'Email Address'}),
-            'message': Textarea(attrs={'class': 'input', 'placeholder': 'Your Message', 'rows': '5'}),
+            'name': TextInput(attrs={'size': '40', 'class': 'input', 'placeholder': 'Name & Surname'}),
+            'subject': TextInput(attrs={'size': '40', 'class': 'input', 'placeholder': 'Subject'}),
+            'email': TextInput(attrs={'size': '40', 'class': 'input', 'placeholder': 'Email Address'}),
+            'message': Textarea(attrs={'cols': 42, 'rows': 4, 'class': 'input', 'placeholder': 'Your Message'}),
         }
 
 

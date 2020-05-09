@@ -9,7 +9,6 @@ from content.models import Content, Category, Images, Comment
 from home.forms import SearchForm, SignUpForm
 from django.views import View
 
-
 # Create your views here.
 
 
@@ -40,8 +39,7 @@ class Hakkimizda(View):
 def referanslar(request):
 
     settings = Settings.objects.get(pk=1)
-    category = Category.objects.all()
-    context = {'settings': settings, 'category': category}
+    context = {'settings': settings}
     return render(request, 'referanslar.html', context)
 
 
@@ -79,6 +77,7 @@ def category_contents(request, id, slug):
 
 
 def content_detail(request, id, slug):
+
     category = Category.objects.all()
     content = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
@@ -88,6 +87,7 @@ def content_detail(request, id, slug):
                'comments': comments,
                'content': content}
     return render(request, 'content_detail.html', context)
+
 
 
 def content_detail_menu(request, id, slug):
