@@ -1,20 +1,20 @@
 {% load static %}
 
-<script>
-    $(function () {
-        $("#query").autocomplete({
-            source: "search_auto/",
-            select: function (event, ui) {
-                AutoCompleteSelectHandler(event,ui)
-            },
-            minLength: 2,
+    <script>
+        $(function () {
+            $("#query").autocomplete({
+                source: "search_auto/",
+                select: function (event, ui) {
+                    AutoCompleteSelectHandler(event,ui)
+                },
+                minLength: 2,
+            });
         });
-    });
-    
-    function AutoCompleteSelectHandler(event, ui) {
-        var selectedObj = ui.item;
-    }
-</script>
+
+        function AutoCompleteSelectHandler(event, ui) {
+            var selectedObj = ui.item;
+        }
+    </script>
 
 <header>
 		<nav class="fh5co-nav" role="navigation">
@@ -81,9 +81,14 @@
                                         {% endif %}
                                     </li>
                                 {% endrecursetree %}
-                            <li><a href="/referanslar">Referanslar</a></li>
-                            <li><a href="/hakkimizda">Hakkımızda</a></li>
-                            <li><a href="/iletisim">İletişim</a></li>
+                            <li class="has-dropdown">
+                                <a href=""><span>Hakkımızda</span></a>
+                                <ul class="dropdown">
+                                    <li><a href="/referanslar">Referanslar</a></li>
+                                    <li><a href="/hakkimizda">Hakkımızda</a></li>
+                                    <li><a href="/iletisim">İletişim</a></li>
+                                </ul>
+                            </li>
 
                             {% if user.id is not None %}
 

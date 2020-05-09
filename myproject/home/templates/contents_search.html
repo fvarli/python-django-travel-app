@@ -1,6 +1,14 @@
 {% extends "homebase.html" %}
 
-{% block title %} | {{ settings.company }} {% endblock %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>{{ settings.company }} </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="https://ferzendervarli.com" />
+
+{% block title %} Geziler | {{ settings.company }} {% endblock %}
 {% block keywords %} {{ settings.keywords }}  {% endblock %}
 {% block description %} {{ settings.description }}  {% endblock %}
 
@@ -37,13 +45,14 @@
 
                     {% for rs in contents %}
                         <tr>
-                            <td><a href="/content/{{ rs.id }}/{{ rs.slug }}"><img src="{{ rs.image.url }}"></a></td>
+                            <td><a href="/content/{{ rs.id }}/{{ rs.slug }}"><img src="{{ rs.image.url }} " width="250" height="150"></a></td>
+                            <td><h4 class="cateogry-name"><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}"> {{ rs.category }}</a></h4></td>
                             <td><h4 class="content-name"><a href="/content/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4></td>
-                            <td><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}"> {{ rs.category }}</a></td>
                         </tr>
                     {% endfor %}
 
                 </table>
+             <br>
             </div>
         </div>
     </div>

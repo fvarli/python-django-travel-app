@@ -1,11 +1,5 @@
 {% extends "homebase.html" %}
 	    {% load static %}
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-<style>
-.mySlides {display:none;}
-</style>
-
 {% block title %} {{ content.title }} {% endblock %}
 {% block keywords %} {{ settings.keywords }}  {% endblock %}
 {% block description %} {{ settings.description }}  {% endblock %}
@@ -15,6 +9,7 @@
 <link rel='shortcut icon' type='image/x-icon' href='{{settings.icon.url}}' />
 
     {% endblock %}
+
 
 {% block content %}
 
@@ -32,6 +27,7 @@
     <div id="fh5co-about">
         <div class="container">
             <div class="col-md-6 animate-box">
+                <span>About Our University</span>
                 <h2>{{ content.title }}</h2>
                 <p>{{ content.detail | safe }}</p>
 
@@ -40,26 +36,85 @@
                 <img class="img-responsive" src="{{ content.image.url }}" alt="Free HTML5 Bootstrap Template">
             </div>
         </div>
-        <br>
-        <div class="container">
-            <!-- <div class="col-md-6 animate-box"></div> -->
-            <div class="col-md-3 text-center">
-                 {% for rs in images %}
-                    <img class="mySlides" src="{{ rs.image.url }}" style="width:300px; height:300px">
-                 {% endfor %}
-                <br>
-                 <button style="width:40px; height:40px;" class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
-                 <button style="width:40px; height:40px;" class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
-            </div>
+	</div>
 
-            <br><br>
+    <aside id="fh5co-hero">
+		<div class="flexslider">
+			<ul class="slides">
 
-        </div>
-        <br>
-        <br>
-        <div class="container">
+				{% for rs in images %}
 
-            <div class="col-md-6 animate-box">
+		   			<li style="background-image: url({{rs.image.url}});">
+		   				<div class="overlay-gradient"></div>
+						<div class="container">
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2 text-center slider-text">
+									<div class="slider-text-inner">
+										<h1>The Roots of Education are Bitter, But the Fruit is Sweet</h1>
+											<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
+											<p><a class="btn btn-primary btn-lg" href="/content/{{ rs.id }}/{{ rs.slug }}">Start Learning Now!</a></p>
+									</div>
+								</div>
+							</div>
+						</div>
+		   			</li>
+				{% endfor %}
+
+		   		<div class="overlay-gradient"></div>
+		   		<div class="container">
+		   			<div class="row">
+			   			<div class="col-md-8 col-md-offset-2 text-center slider-text">
+			   				<div class="slider-text-inner">
+			   					<h1>We Help You to Learn New Things</h1>
+									<h2>Brought to you by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
+									<p><a class="btn btn-primary btn-lg btn-learn" href="#">Start Learning Now!</a></p>
+			   				</div>
+			   			</div>
+			   		</div>
+		   		</div>
+		   	</li>
+		  	</ul>
+	  	</div>
+	</aside>
+
+    <div id="fh5co-course">
+		<div class="container">
+
+			<div class="row">
+
+
+
+                {% for rs in images %}
+				    <div class="col-md-6 animate-box">
+	    				<div class="course">
+    						<a href="#" class="course-img" style="background-image: url({{rs.image.url}});"></a>
+						    <div class="desc">
+                                <h3><a href="#">{{ content.title }}</a></h3>
+                                <p> {{ content.description | safe }} </p>
+		    				</div>
+					    </div>
+			    	</div>
+                {% endfor %}
+
+                {% for rs in comments %}
+                    <div class="col-md-6 animate-box">
+	    				<div class="course">
+						    <div class="desc">
+
+
+                                <h2>{{rs.subject}}</h2>
+                                <p>{{rs.comment}}</p>
+                                <p>Rate is {{rs.rate}}</p>
+                                <div><a href=""><b>{{ rs.user.username }}</b></a></div>
+                                <div>Created at: <a href=""><b>{{ rs.create_at }}</b></a></div>
+		    				</div>
+					    </div>
+			    	</div>
+                {% endfor %}
+			</div>
+
+            <div>
+                <div class="col-md-6 animate-box">
                 <h4 class="text-uppercase">Write Your Review</h4>
                 {% if messages %}
                     {% for message in messages %}
@@ -88,11 +143,11 @@
                             <div class="input-rating">
                                 <strong class="text-uppercase">Your Raiting:</strong>
                                 <div class="stars">
-                                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
-                                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
-                                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
-                                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
                                     <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
+                                    <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
+                                    <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
+                                    <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
+                                    <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
                                 </div>
                             </div>
                         </div>
@@ -104,43 +159,7 @@
                     </form>
                 </div>
 
-            {% for rs in comments %}
-                <div class="col-md-6 animate-box">
-	    				<div class="course">
-						    <div class="desc">
-
-
-                                <h2>{{rs.subject}}</h2>
-                                <p>{{rs.comment}}</p>
-                                <p>Rate is {{rs.rate}}</p>
-                                <div><a href=""><b>{{ rs.user.username }}</b></a></div>
-                                <div>Created at: <a href=""><b>{{ rs.create_at }}</b></a></div>
-		    				</div>
-					    </div>
-			    	</div>
-            {% endfor %}
-
-        </div>
+            </div>
+		</div>
 	</div>
-
-    <script>
-        var slideIndex = 1;
-        showDivs(slideIndex);
-
-        function plusDivs(n) {
-          showDivs(slideIndex += n);
-        }
-
-        function showDivs(n) {
-          var i;
-          var x = document.getElementsByClassName("mySlides");
-          if (n > x.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = x.length}
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-          }
-          x[slideIndex-1].style.display = "block";
-        }
-    </script>
-
 {% endblock %}

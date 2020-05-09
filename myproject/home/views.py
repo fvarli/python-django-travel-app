@@ -69,7 +69,7 @@ def iletisim(request):
 def category_contents(request, id, slug):
     category = Category.objects.all()
     category_data = Category.objects.get(pk=id)
-    contents = Content.objects.filter(category_id=id)
+    contents = Content.objects.filter(category_id=id, status='True')
     context = {'contents': contents,
                'category': category,
                'category_data': category_data}
@@ -89,7 +89,6 @@ def content_detail(request, id, slug):
     return render(request, 'content_detail.html', context)
 
 
-
 def content_detail_menu(request, id, slug):
     category = Category.objects.all()
     content = Content.objects.filter(categry_id=id)
@@ -104,18 +103,16 @@ def content_search(request):
         if form.is_valid():
             category = Category.objects.all()
             query = form.cleaned_data['query']  # get form data
-            #catid = form.cleaned_data['catid']  # get form data
+            catid = form.cleaned_data['catid']  # get form data
             contents = Content.objects.filter(title__icontains=query)  # select * from content where title like %query%
 
-            '''
-                        if catid == 0:
+            if catid == 0:
                 contents = Content.objects.filter(title__icontains=query)   # select * from content where title like %query%
             else:
                 contents = Content.objects.filter(title__icontains=query, category_id=catid)
                 
-            '''
 
-            # return HttpResponse(content)
+            #return HttpResponse(content)
             context = {'contents': contents,
                        'category': category}
             return render(request, 'contents_search.html', context)
