@@ -177,4 +177,3 @@ def sign_up_view(request):
     context = {'category': category,
                'form': form}
     return render(request, 'sign_up.html', context)
-
