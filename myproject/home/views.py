@@ -16,7 +16,7 @@ def index(request):
 
     settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
-    random_contents = Content.objects.order_by('?')[:6]
+    random_contents = Content.objects.order_by('?')[:10]
     random_category = Category.objects.order_by('?')[:10]
     category = Category.objects.all()
     context = {'settings': settings,
@@ -79,11 +79,13 @@ def category_contents(request, id, slug):
 def content_detail(request, id, slug):
 
     category = Category.objects.all()
+    settings = Settings.objects.get(pk=1)
     content = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
     comments = Comment.objects.filter(content_id=id, status='True')
     context = {'category': category,
                'images': images,
+               'settings': settings,
                'comments': comments,
                'content': content}
     return render(request, 'content_detail.html', context)
