@@ -112,7 +112,6 @@ def content_search(request):
                 contents = Content.objects.filter(title__icontains=query)   # select * from content where title like %query%
             else:
                 contents = Content.objects.filter(title__icontains=query, category_id=catid)
-                
 
             #return HttpResponse(content)
             context = {'contents': contents,
