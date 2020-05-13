@@ -19,8 +19,10 @@ def index(request):
     random_contents = Content.objects.order_by('?')[:10]
     random_category = Category.objects.order_by('?')[:10]
     category = Category.objects.all()
+    content = Content.objects.all()
     context = {'settings': settings,
                'category': category,
+               'content': content,
                'random_category': random_category,
                'page': 'home',
                'slider_data': slider_data,
@@ -92,11 +94,23 @@ def content_detail(request, id, slug):
 
 
 def content_detail_menu(request, id, slug):
-    category = Category.objects.all()
-    content = Content.objects.filter(categry_id=id)
-    link = '/content/' + str(content[0].id) + '/' + content[0].slug
+
+    content = Content.objects.filter(category_id=id)
+
+    link = '/content' + str(content[0].id) + '/' + content[0].slug
     return HttpResponse(link)
-    #return HttpResponseRedirect(link)
+    return HttpResponseRedirect(link)
+
+    '''
+        content = Content.objects.get(pk=con)
+    return HttpResponse(content[0].id)
+    images = Images.objects.filter(content_id=con)
+    comments = Comment.objects.filter(content_id=id, status='True')
+    context = {'images': images,
+               'comments': comments,
+               'content': content}
+    return render(request, 'content_detail.html', context)
+    '''
 
 
 def content_search(request):
