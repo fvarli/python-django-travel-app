@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from home.models import Settings, ContactFormMessage, ContactFormu
+from home.models import Settings, ContactFormMessage, ContactFormu, UserProfile
 from content.models import Content, Category, Images, Comment
 from home.forms import SearchForm, SignUpForm
 from django.views import View
@@ -18,10 +18,8 @@ def index(request):
     slider_data = Content.objects.all()[:4]
     random_contents = Content.objects.order_by('?')[:10]
     random_category = Category.objects.order_by('?')[:10]
-    category = Category.objects.all()
     content = Content.objects.all()
     context = {'settings': settings,
-               'category': category,
                'content': content,
                'random_category': random_category,
                'page': 'home',
@@ -183,6 +181,15 @@ def sign_up_view(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(request, username=username, password=password)
             login(request, user)
+
+            #current data in profile table for user
+            current_user = request.user
+            data = UserProfile()
+            data.user_id = current_user.id
+            data.image = "images/users/user_image.png"
+            data.save()
+            messages.success(request, "Sitemize başarılı bir şekilde üye oldunuz.")
+
             return HttpResponseRedirect('/')
 
     form = SignUpForm()

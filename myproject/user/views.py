@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -9,7 +10,7 @@ from content.models import Category
 
 from home.models import UserProfile
 
-from user.forms import UserUpdateForm, ProfileUpdateForm
+from user.forms import UserUpdateForm, ProfileUpdateForm, AddNewTrip
 
 
 def index(request):
@@ -43,6 +44,22 @@ def user_update(request):
             'profile_form': profile_form
         }
         return render(request, 'user_update.html', context)
+
+
+# @login_required(login_url='/login')
+def add_new_trip(request):
+    if request.method == 'POST':
+        new_trip = AddNewTrip(request.POST, request.FILES)
+        if new_trip.is_valid():
+            new_trip.save()
+            messages.success(request, 'Your new trip has been added!')
+            return redirect('/user')
+    else:
+        new_trip = AddNewTrip()
+        context = {
+            'new_trip': new_trip
+        }
+        return render(request, 'add_new_trip.html', context)
 
 
 def change_password(request):

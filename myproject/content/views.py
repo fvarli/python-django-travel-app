@@ -12,7 +12,6 @@ def index(request):
 
 
 @login_required(login_url='/login')
-
 def add_comment(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
     if request.method == 'POST':    # if form is posted
