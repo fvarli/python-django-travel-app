@@ -6,13 +6,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from content.models import Category
+from content.models import Category, Comment
 
 from home.models import UserProfile
 
-from user.forms import UserUpdateForm, ProfileUpdateForm, AddNewTrip
+from user.forms import UserUpdateForm, ProfileUpdateForm, AddNewTrip, AddNewCategory
 
 
+@login_required(login_url='/login')
 def index(request):
     category = Category.objects.all()
     current_user = request.user     # access user session information
@@ -23,6 +24,7 @@ def index(request):
     return render(request, 'user_profile.html', context)
 
 
+@login_required(login_url='/login')
 def user_update(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)     # request.user is user_data
@@ -46,7 +48,7 @@ def user_update(request):
         return render(request, 'user_update.html', context)
 
 
-# @login_required(login_url='/login')
+@login_required(login_url='/login')
 def add_new_trip(request):
     if request.method == 'POST':
         new_trip = AddNewTrip(request.POST, request.FILES)
@@ -59,9 +61,27 @@ def add_new_trip(request):
         context = {
             'new_trip': new_trip
         }
-        return render(request, 'add_new_trip.html', context)
+        return render(request, 'add_new_trip.html', context)\
+    
 
 
+@login_required(login_url='/login')
+def add_new_category(request):
+    if request.method == 'POST':
+        new_category = AddNewCategory(request.POST, request.FILES)
+        if new_category.is_valid():
+            new_category.save()
+            messages.success(request, 'Your new category has been added!')
+            return redirect('/user')
+    else:
+        new_category = AddNewCategory()
+        context = {
+            'new_category': new_category
+        }
+        return render(request, 'add_new_category.html', context)
+
+
+@login_required(login_url='/login')
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -81,3 +101,19 @@ def change_password(request):
             'form': form,
             'category': category
         })
+
+
+@login_required(login_url='/login')
+def comments(request):
+    current_user = request.user
+    comments = Comment.objects.filter(user_id=current_user.id)
+    context = {'comments': comments}
+    return render(request, 'user_comments.html', context)
+
+
+@login_required(login_url='/login')
+def delete_comment(request, id):
+    current_user = request.user
+    Comment.objects.filter(id=id, user_id=current_user.id).delete()
+    messages.success(request, 'Your comment has been deleted.')
+    return HttpResponseRedirect('/user/comments')

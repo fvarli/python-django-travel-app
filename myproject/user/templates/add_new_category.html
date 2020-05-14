@@ -1,0 +1,55 @@
+{% extends "homebase.html" %}
+
+{% block title %} Profile | {{ profile.user_name }} {% endblock %}
+{% block keywords %} {{ settings.keywords }}  {% endblock %}
+{% block description %} {{ settings.description }}  {% endblock %}
+
+    {% block head %}
+
+<link rel='shortcut icon' type='image/x-icon' href='{{settings.icon.url}}' />
+
+    {% endblock %}
+
+
+{% block content %}
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Yeni Kategori Ekle</li>
+            </ul>
+        </div>
+    </div>&emsp;
+
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4">
+
+                            {% include "user_panel.html" %}
+
+                </div>
+
+                <div class="col-md-8">
+                    <div class="content-section">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                {{ new_category.as_p }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button type="submit">Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

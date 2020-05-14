@@ -44,24 +44,32 @@ class ProfileUpdateForm(forms.ModelForm):
         }
 
 
-STATUS = [
-    ('True', 'Evet'),
-    ('False', 'Hayır'),
-]
-
-
 class AddNewTrip(forms.ModelForm):
     class Meta:
         model = Content
-        fields = ('category', 'title', 'keywords', 'status', 'description', 'image', 'detail', 'slug', 'parent')
+        fields = ('category', 'title', 'keywords', 'description', 'image', 'detail', 'slug', 'parent')
         widgets = {
             #'category': models.ForeignKey(Category, on_delete=models.CASCADE),
             'title': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'title'}),
             'keywords': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'keywords'}),
             'description': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'description'}),
-            'status': Select(attrs={'class': 'input', 'placeholder': 'city'}, choices=STATUS),
+            'status': TextInput(attrs={'size': '100', 'class': 'input',  'value': 'False'}),
             'image': FileInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'image'}),
             'slug': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'slug'}),
             #'parent': TreeForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE),
 
+        }
+
+
+class AddNewCategory(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('title', 'keywords', 'description', 'image', 'slug', 'parent')
+        widgets = {
+            'title': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'title'}),
+            'keywords': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'keywords'}),
+            'description': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'description'}),
+            'status': TextInput(attrs={'size': '100', 'class': 'input',  'value': 'False'}),
+            'image': FileInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'image'}),
+            'slug': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'slug'}),
         }
