@@ -30,6 +30,8 @@ class Settings(models.Model):
     facebook = models.CharField(max_length=50)
     instagram = models.CharField(max_length=50)
     twitter = models.CharField(max_length=50)
+    linkedin = models.CharField(max_length=50)
+    github = models.CharField(max_length=50)
     about_us = RichTextUploadingField(blank=True)
     contact = RichTextUploadingField(blank=True)
     references = RichTextUploadingField(blank=True)
@@ -102,3 +104,19 @@ class UserProfileFormu(ModelForm):
     class Meta:
         model = UserProfile
         fields = ['phone', 'address', 'city', 'country', 'image']
+
+
+class Faq(models.Model):
+    STATUS = (
+        ('True', 'Evet'),
+        ('False', 'Hayır'),
+    )
+    order_faq = models.IntegerField()
+    question = models.CharField(max_length=150)
+    answer = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question

@@ -1,0 +1,59 @@
+{% extends "homebase.html" %}
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title> Sıkça Sorulan Sorular | {{ settings.company }} </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="author" content="https://ferzendervarli.com" />
+
+{% block title %} Sık Sorulan Sorular | {{ settings.company }} {% endblock %}
+{% block keywords %} {{ settings.keywords }}  {% endblock %}
+{% block description %} {{ settings.description }}  {% endblock %}
+
+    {% block head %}
+
+<link rel='shortcut icon' type='image/x-icon' href='{{settings.icon.url}}' />
+
+        <script>
+            $(function(){
+               $("#accordion").accordion({
+                  collapsible: true
+               });
+            });
+        </script>
+
+    {% endblock %}
+
+
+{% block content %}
+
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Sıkça Sorulan Sorular</li>
+            </ul>
+        </div>
+    </div>&emsp;
+
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div id="accordion">
+                    {% for rs in faq %}
+                        <h3>{{ rs.question }}</h3>
+                        <div>
+                            <p>{{ rs.answer }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+             <br>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from home.models import Settings, ContactFormMessage, ContactFormu, UserProfile
+from home.models import Settings, ContactFormMessage, ContactFormu, UserProfile, Faq
 from content.models import Content, Category, Images, Comment
 from home.forms import SearchForm, SignUpForm
 from django.views import View
@@ -14,7 +14,7 @@ from django.views import View
 
 def index(request):
 
-    settings = Settings.objects.get(pk=1)
+    settings = Settings.objects.filter(pk=1)
     slider_data = Content.objects.all()[:4]
     random_contents = Content.objects.order_by('?')[:10]
     random_category = Category.objects.order_by('?')[:10]
@@ -30,17 +30,13 @@ def index(request):
 
 class Hakkimizda(View):
     def get(self, request):
-        settings = Settings.objects.get(pk=1)
         category = Category.objects.all()
-        context = {'settings': settings, 'category': category}
+        context = {'category': category}
         return render(request, 'hakkimizda.html', context)
 
 
 def referanslar(request):
-
-    settings = Settings.objects.get(pk=1)
-    context = {'settings': settings}
-    return render(request, 'referanslar.html', context)
+    return render(request, 'referanslar.html')
 
 
 def iletisim(request):
@@ -58,10 +54,8 @@ def iletisim(request):
             messages.success(request, "Mesajınız başarıyla gönderişmiştir. Teşekkür ederiz.")
             return HttpResponseRedirect('/iletisim')
 
-
-    settings = Settings.objects.get(pk=1)
     form = ContactFormu()
-    context = {'settings': settings,
+    context = {
                'form': form}
     return render(request, 'iletisim.html', context)
 
@@ -79,13 +73,11 @@ def category_contents(request, id, slug):
 def content_detail(request, id, slug):
 
     category = Category.objects.all()
-    settings = Settings.objects.get(pk=1)
     content = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
     comments = Comment.objects.filter(content_id=id, status='True')
     context = {'category': category,
                'images': images,
-               'settings': settings,
                'comments': comments,
                'content': content}
     return render(request, 'content_detail.html', context)
@@ -198,3 +190,11 @@ def sign_up_view(request):
     context = {'category': category,
                'form': form}
     return render(request, 'sign_up.html', context)
+
+
+def faq(request):
+    faq = Faq.objects.all().order_by('order_faq')
+    context = {
+        'faq': faq
+    }
+    return render(request, 'faq.html', context)
