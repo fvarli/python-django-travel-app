@@ -1,8 +1,9 @@
+from ckeditor.widgets import CKEditorWidget
 from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput, Select, FileInput
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -51,7 +52,8 @@ class Content(models.Model):
         ('True', 'Evet'),
         ('False', 'Hayır'),
     )
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     keywords = models.CharField(blank=True, max_length=255)
     description = models.CharField(blank=True, max_length=255)
@@ -114,3 +116,18 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = ['subject', 'email', 'comment', 'rate']
+
+
+class ContentForm(ModelForm):
+    class Meta:
+        model = Content
+        fields = ['category', 'title', 'slug', 'keywords', 'description', 'image', 'detail']
+        widgets = {
+
+            'title': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'title'}),
+            'slug': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'slug'}),
+            'keywords': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'keywords'}),
+            'description': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'description'}),
+            'image': FileInput(attrs={'class': 'input', 'placeholder': 'image'}),
+            'detail': CKEditorWidget(),
+        }

@@ -66,10 +66,10 @@ class AddNewCategory(forms.ModelForm):
         model = Category
         fields = ('title', 'keywords', 'description', 'image', 'slug', 'parent')
         widgets = {
-            'title': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'title'}),
-            'keywords': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'keywords'}),
-            'description': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'description'}),
-            'status': TextInput(attrs={'size': '100', 'class': 'input',  'value': 'False'}),
-            'image': FileInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'image'}),
-            'slug': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'slug'}),
+            'title': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'title'}),
+            'keywords': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'keywords'}),
+            'description': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'description'}),
+            'status': TextInput(attrs={'size': '85', 'class': 'input',  'value': 'False'}),
+            'image': FileInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'image'}),
+            'slug': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'slug'}),
         }
