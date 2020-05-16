@@ -14,7 +14,7 @@ from django.views import View
 
 def index(request):
 
-    settings = Settings.objects.filter(pk=1)
+    settings = Settings.objects.get(pk=1)
     slider_data = Content.objects.all()[:4]
     random_contents = Content.objects.order_by('?')[:10]
     random_category = Category.objects.order_by('?')[:10]
