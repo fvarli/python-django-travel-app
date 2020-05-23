@@ -15,4 +15,5 @@ urlpatterns = [
     path('contents/', views.contents, name="contents"),
     path('edit_content/<int:id>', views.edit_content, name="edit_content"),
     path('delete_content/<int:id>', views.delete_content, name="delete_content"),
+    path('content_add_image/<int:id>', views.content_add_image, name="content_add_image"),
 ]

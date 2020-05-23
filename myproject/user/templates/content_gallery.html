@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content Gallery</title>
+</head>
+<body>
+
+<h2>{{ content.title }}</h2>
+
+<hr>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert--{{ message.tags }}" role="alert">
+            {{ message | safe }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="content_id" id="id_content_id" value="{{ content.id }}">
+    <label for="id_title">Title:</label>
+    <input type="text" name="title" id="id_title" class="input" placeholder="Title" maxlength="50"></p>
+    <label for="id_image">Image:</label>
+    <input type="file" name="image" class="input" placeholder="Image" accept="image/*" id="id_image"></p>
+    <button class="btn-primary" type="submit">Upload Image</button>
+</form>
+
+<hr>
+
+<h4>Uploaded Images</h4>
+
+{% for rs in images %}
+    <img src="{{ rs.image.url }}" alt="{{ rs.title }}" height="200" width="300">
+{% endfor %}
+</body>
+</html>

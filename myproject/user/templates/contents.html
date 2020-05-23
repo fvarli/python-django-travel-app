@@ -1,5 +1,5 @@
 {% extends "homebase.html" %}
-
+{% load static %}
 {% block title %} Profile | {{ profile.user_name }} {% endblock %}
 {% block keywords %} {{ settings.keywords }}  {% endblock %}
 {% block description %} {{ settings.description }}  {% endblock %}
@@ -64,6 +64,7 @@
                             <th class="text-left">Image</th>
                             <th class="text-left">Category</th>
                             <th class="text-left">Title</th>
+                            <th class="text-left">Gallery</th>
                             <th class="text-left">Status</th>
                             <th class="text-left">Date</th>
                             <th class="text-left">Edit</th>
@@ -74,8 +75,13 @@
                             <tr>
                                 <td class="text-left">{{ rs.id }}</td>
                                 <td class="text-left"><img src="{{ rs.image.url }}" alt="" style="height: 30px;"></td>
-                                <td class="text-left">{{ rs.title }}</td>
                                 <td class="text-left">{{ rs.category }}</td>
+                                <td class="text-left"><a href="/content/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></td>
+                                <td class="text-left">
+                                    <a href="javascript:;"
+                                       onclick="window.open('/user/content_add_image/{{ rs.id }}','gallery','height=600,width=800,top=50,left=150')"><img src="{% static '' %}/images/gallery-icon.png" alt="" width="75" height="75">
+                                    </a>
+                                </td>
                                 <td class="text-left">{{ rs.status }}</td>
                                 <td class="text-left">{{ rs.create_at }}</td>
                                 <td class="text-left">

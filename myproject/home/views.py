@@ -5,7 +5,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Settings, ContactFormMessage, ContactFormu, UserProfile, Faq
-from content.models import Content, Category, Images, Comment
+from content.models import Content, Category, Images, Comment, ContentImages
 from home.forms import SearchForm, SignUpForm
 from django.views import View
 
@@ -14,9 +14,13 @@ from django.views import View
 
 def index(request):
 
+    #django objects filter order by
+    #https://stackoverflow.com/questions/9834038/django-order-by-query-set-ascending-and-descending
     settings = Settings.objects.get(pk=1)
-    slider_data = Content.objects.all()[:4]
-    random_contents = Content.objects.order_by('?')[:10]
+    #slider_data = Content.objects.all()[:4]
+    slider_data = Content.objects.filter(status="True")[:4]
+    #random_contents = Content.objects.order_by('?')[:10]
+    random_contents = Content.objects.filter(status="True").order_by('?',)[:10]
     random_category = Category.objects.order_by('?')[:10]
     content = Content.objects.all()
     context = {'settings': settings,
@@ -76,8 +80,10 @@ def content_detail(request, id, slug):
     content = Content.objects.get(pk=id)
     images = Images.objects.filter(content_id=id)
     comments = Comment.objects.filter(content_id=id, status='True')
+    content_images = ContentImages.objects.filter(content_id=id)
     context = {'category': category,
                'images': images,
+               'content_images': content_images,
                'comments': comments,
                'content': content}
     return render(request, 'content_detail.html', context)
