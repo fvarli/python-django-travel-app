@@ -17,6 +17,7 @@ class Category(MPTTModel):
         ('False', 'Hayır'),
     )
     title = models.CharField(max_length=100)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     keywords = models.CharField(blank=True, max_length=255)
     description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
@@ -130,6 +131,20 @@ class ContentForm(ModelForm):
             'description': TextInput(attrs={'size': '100', 'class': 'input', 'placeholder': 'description'}),
             'image': FileInput(attrs={'class': 'input', 'placeholder': 'image'}),
             'detail': CKEditorWidget(),
+        }
+
+
+class AddNewCategory(ModelForm):
+    class Meta:
+        model = Category
+        fields = ('title', 'keywords', 'description', 'image', 'slug', 'parent')
+        widgets = {
+            'title': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'title'}),
+            'keywords': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'keywords'}),
+            'description': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'description'}),
+            'status': TextInput(attrs={'size': '85', 'class': 'input',  'value': 'False'}),
+            'image': FileInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'image'}),
+            'slug': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'slug'}),
         }
 
 

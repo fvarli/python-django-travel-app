@@ -65,24 +65,20 @@ def iletisim(request):
 
 
 def category_contents(request, id, slug):
-    category = Category.objects.all()
-    category_data = Category.objects.get(pk=id)
+    category_data = Category.objects.filter(status='True').get(pk=id)
     contents = Content.objects.filter(category_id=id, status='True')
     context = {'contents': contents,
-               'category': category,
                'category_data': category_data}
     return render(request, 'geziler.html', context)
 
 
 def content_detail(request, id, slug):
 
-    category = Category.objects.all()
-    content = Content.objects.get(pk=id)
+    content = Content.objects.filter(status='True').get(pk=id)
     images = Images.objects.filter(content_id=id)
     comments = Comment.objects.filter(content_id=id, status='True')
     content_images = ContentImages.objects.filter(content_id=id)
-    context = {'category': category,
-               'images': images,
+    context = {'images': images,
                'content_images': content_images,
                'comments': comments,
                'content': content}
@@ -113,7 +109,6 @@ def content_search(request):
     if request.method == 'POST':    # check form post
         form = SearchForm(request.POST)
         if form.is_valid():
-            category = Category.objects.all()
             query = form.cleaned_data['query']  # get form data
             catid = form.cleaned_data['catid']  # get form data
             contents = Content.objects.filter(title__icontains=query)  # select * from content where title like %query%
@@ -124,8 +119,7 @@ def content_search(request):
                 contents = Content.objects.filter(title__icontains=query, category_id=catid)
 
             #return HttpResponse(content)
-            context = {'contents': contents,
-                       'category': category}
+            context = {'contents': contents}
             return render(request, 'contents_search.html', context)
 
         return HttpResponseRedirect('/')
@@ -192,9 +186,7 @@ def sign_up_view(request):
 
     form = SignUpForm()
 
-    category = Category.objects.all()
-    context = {'category': category,
-               'form': form}
+    context = {'form': form}
     return render(request, 'sign_up.html', context)
 
 

@@ -61,15 +61,4 @@ class AddNewTrip(forms.ModelForm):
         }
 
 
-class AddNewCategory(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = ('title', 'keywords', 'description', 'image', 'slug', 'parent')
-        widgets = {
-            'title': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'title'}),
-            'keywords': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'keywords'}),
-            'description': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'description'}),
-            'status': TextInput(attrs={'size': '85', 'class': 'input',  'value': 'False'}),
-            'image': FileInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'image'}),
-            'slug': TextInput(attrs={'size': '85', 'class': 'input', 'placeholder': 'slug'}),
-        }
+

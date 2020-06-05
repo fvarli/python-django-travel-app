@@ -51,9 +51,9 @@
 
                 <div class="col-md-8">
                     <div class="content-section">
-                        <h4 class="title">User Contents List
+                        <h4 class="title">User Category List
                             <br> <br>
-                            <a class="btn-primary" href="/user/add_content">Add Content</a>
+                            <a class="btn-primary" href="/user/add_new_category">Add Category</a>
                         </h4>
                     </div>
 
@@ -62,39 +62,35 @@
                         <tr>
                             <th class="text-left">Id</th>
                             <th class="text-left">Image</th>
-                            <th class="text-left">Category</th>
-                            <th class="text-left">Title</th>
-                            <th class="text-left">Gallery</th>
+                            <th class="text-left">Category Title</th>
                             <th class="text-left">Status</th>
                             <th class="text-left">Date</th>
                             <th class="text-left">Edit</th>
                             <th class="text-left">Delete</th>
                         </tr>
 
-                        {% for rs in contents %}
+                        {% for rs in user_category %}
                             <tr>
                                 <td class="text-left">{{ rs.id }}</td>
+                                {% if rs.image %}
                                 <td class="text-left"><img src="{{ rs.image.url }}" alt="" style="height: 30px;"></td>
-                                <td class="text-left">{{ rs.category }}</td>
+                                {% else %}
+                                <td class="text-left">No Image</td>
+                                {% endif %}
                                 {% if rs.status == 'True' %}
                                     <td class="text-left"><a href="/content/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></td>
                                     {% else %}
                                     <td class="text-left">{{ rs.title }}</td>
                                 {% endif %}
-                                <td class="text-left">
-                                    <a href="javascript:;"
-                                       onclick="window.open('/user/content_add_image/{{ rs.id }}','gallery','height=600,width=800,top=50,left=150')"><img src="{% static '' %}/images/gallery-icon.png" alt="" width="75" height="75">
-                                    </a>
-                                </td>
                                 <td class="text-left">{{ rs.status }}</td>
                                 <td class="text-left">{{ rs.create_at }}</td>
                                 <td class="text-left">
-                                    <a href="/user/edit_content/{{ rs.id }}">
+                                    <a href="/user/edit_category/{{ rs.id }}">
                                         Edit</a>
                                 </td>
                                 <td class="text-left">
                                     <a class="btn-primary"
-                                       href="/user/delete_content/{{ rs.id }}"
+                                       href="/user/delete_category/{{ rs.id }}"
                                        onclick="return confirm('Delete! Are you sure?')">
                                         Delete</a>
                                 </td>

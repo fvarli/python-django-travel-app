@@ -6,16 +6,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from content.models import Category, Comment, Content, ContentForm, ContentImageForm, ContentImages
+from content.models import Category, Comment, Content, ContentForm, ContentImageForm, ContentImages, AddNewCategory
 
 from home.models import UserProfile
 
-from user.forms import UserUpdateForm, ProfileUpdateForm, AddNewTrip, AddNewCategory
+from user.forms import UserUpdateForm, ProfileUpdateForm, AddNewTrip
 
 
 @login_required(login_url='/login')
 def index(request):
-    category = Category.objects.all()
+    category = Category.objects.filter(status='True')
     current_user = request.user     # access user session information
     profile = UserProfile.objects.get(user_id=current_user.id)
     #return HttpResponse(profile)
@@ -61,24 +61,7 @@ def add_new_trip(request):
         context = {
             'new_trip': new_trip
         }
-        return render(request, 'add_new_trip.html', context)\
-    
-
-
-@login_required(login_url='/login')
-def add_new_category(request):
-    if request.method == 'POST':
-        new_category = AddNewCategory(request.POST, request.FILES)
-        if new_category.is_valid():
-            new_category.save()
-            messages.success(request, 'Your new category has been added!')
-            return redirect('/user')
-    else:
-        new_category = AddNewCategory()
-        context = {
-            'new_category': new_category
-        }
-        return render(request, 'add_new_category.html', context)
+        return render(request, 'add_new_trip.html', context)
 
 
 @login_required(login_url='/login')
@@ -132,6 +115,16 @@ def contents(request):
 
 
 @login_required(login_url='/login')
+def categories(request):
+    current_user = request.user
+    user_category = Category.objects.filter(user_id=current_user.id)
+    context = {
+        'user_category': user_category
+    }
+    return render(request, 'categories.html', context)
+
+
+@login_required(login_url='/login')
 def add_content(request):
     if request.method == 'POST':
         form = ContentForm(request.POST, request.FILES)
@@ -162,6 +155,31 @@ def add_content(request):
 
 
 @login_required(login_url='/login')
+def add_new_category(request):
+    if request.method == 'POST':
+        new_category = AddNewCategory(request.POST, request.FILES)
+        if new_category.is_valid():
+            current_user = request.user
+            data = Category()
+            data.user_id = current_user.id
+            data.title = new_category.cleaned_data['title']
+            data.keywords = new_category.cleaned_data['keywords']
+            data.description = new_category.cleaned_data['description']
+            data.image = new_category.cleaned_data['image']
+            data.slug = new_category.cleaned_data['slug']
+            data.status = 'False'
+            data.save()
+            messages.success(request, 'Your new category has been added!')
+            return redirect('/user/categories')
+    else:
+        new_category = AddNewCategory()
+        context = {
+            'new_category': new_category
+        }
+        return render(request, 'add_new_category.html', context)
+
+
+@login_required(login_url='/login')
 def edit_content(request, id):
     content = Content.objects.get(id=id)
     if request.method == 'POST':
@@ -182,11 +200,39 @@ def edit_content(request, id):
 
 
 @login_required(login_url='/login')
+def edit_category(request, id):
+    n_category = Category.objects.get(id=id)
+    if request.method == 'POST':
+        new_category = AddNewCategory(request.POST, request.FILES, instance=n_category)
+        if new_category.is_valid():
+            new_category.save()
+            messages.success(request, 'Your category has been updated.')
+            return HttpResponseRedirect('/user/categories')
+        else:
+            messages.error(request, 'Category Form Error: ', + str(new_category.errors))
+            return HttpResponseRedirect('/user/edit_category/' + str(id))
+    else:
+        new_category = AddNewCategory(instance=n_category)
+        context = {
+            'new_category': new_category
+        }
+        return render(request, 'add_new_category.html', context)
+
+
+@login_required(login_url='/login')
 def delete_content(request, id):
     current_user = request.user
     Content.objects.filter(id=id, user_id=current_user.id).delete()
     messages.success(request, 'Your trip has been deleted.')
     return HttpResponseRedirect('/user/contents')
+
+
+@login_required(login_url='/login')
+def delete_category(request, id):
+    current_user = request.user
+    Category.objects.filter(id=id, user_id=current_user.id).delete()
+    messages.success(request, 'Your category has been deleted.')
+    return HttpResponseRedirect('/user/categories')
 
 
 @login_required(login_url='/login')
