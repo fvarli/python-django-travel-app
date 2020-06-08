@@ -159,9 +159,7 @@ def login_view(request):
             messages.warning(request, "Giriş bigileriniz hatalı. Tekrar deneyin.")
             return HttpResponseRedirect('/login')
 
-    category = Category.objects.all()
-    context = {'category': category}
-    return render(request, 'login.html', context)
+    return render(request, 'login.html')
 
 
 def sign_up_view(request):
